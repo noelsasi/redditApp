@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import loader from "./images/loader.gif";
 
 import Post from "./postView";
 import Subreddits from "./subreddits";
@@ -9,7 +10,7 @@ class MainView extends Component {
 
     this.state = {
       data: [],
-      subreddit: "images"
+      subreddit: "all"
     };
   }
 
@@ -18,19 +19,31 @@ class MainView extends Component {
   }
 
   loadData() {
+    const { subreddit } = this.state;
+    const url = subreddit.split(" ").join("+");
     axios
-      .get(`https://www.reddit.com/r/${this.state.subreddit}.json`)
+      .get(`https://www.reddit.com/r/${url}.json`)
       .then(res => res.data.data)
       .then(data => this.setState({ data: data.children }));
   }
 
+  time = date => {
+    const result = new Date(date);
+    return result.toLocaleDateString();
+  };
+
+  changeSubreddit = () => {
+    this.setState({ data: [] });
+    this.loadData();
+  };
+
   getSubreddit = value => {
-    this.setState({ subreddit: value }, () => this.loadData());
+    this.setState({ subreddit: value }, () => this.changeSubreddit());
   };
 
   render() {
     const { data } = this.state;
-
+    console.log(data, "api");
     const posts = data.map((post, i) => (
       <div key={i}>
         <Post
@@ -41,6 +54,7 @@ class MainView extends Component {
           comments={post.data.num_comments}
           subscribers={post.data.subreddit_subscribers}
           score={post.data.score}
+          time={this.time(post.data.created)}
         />
       </div>
     ));
@@ -50,11 +64,17 @@ class MainView extends Component {
           <div className="sub-reddits mb-3">
             <Subreddits getSubreddit={this.getSubreddit} />
           </div>
-          <div className="posts mt-4">
+          <div className="posts my-4">
             <h6>
               Results for "<u>{this.state.subreddit}</u>"
             </h6>
-            {posts}
+            {/* <img src={loader} alt="loading" className="img-fluid" /> */}
+            {this.state.data.length > 0 ? (
+              posts
+            ) : (
+              <img src={loader} alt="loading" className="img-fluid" />
+            )}
+            {/* {posts} */}
           </div>
         </div>
       </div>

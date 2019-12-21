@@ -2,6 +2,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #ebebeb !important;
 }
 
 code {
@@ -41,12 +42,13 @@ p {
 .card-title {
   font-size: 13px;
   font-family: "Nunito Sans", sans-serif;
+  margin-bottom: 0.2rem !important;
 }
 
 .card-text {
   font-size: 12px;
   font-weight: 700;
-  color: #0f0f0f;
+  color: #303030;
 }
 
 .card-text-author {
@@ -54,10 +56,29 @@ p {
   font-weight: 500;
   color: #474747;
   text-transform: capitalize;
+  margin: 0;
+  padding: 0;
+}
+
+.card-text-time {
+  font-size: 9px;
+  font-weight: 600;
+  color: rgb(255, 29, 29);
+  padding: 0;
+  margin: 0;
+}
+
+.time-sub {
+  font-weight: normal;
 }
 
 .card {
   overflow: hidden;
+  border: 0.9px solid transparent;
+}
+
+.card:hover {
+  border: 0.9px solid #ff4301;
 }
 
 .card-body {
@@ -70,19 +91,23 @@ p {
 }
 
 .user-icon {
-  background-color: rgb(212, 212, 212);
-  padding: 0.7em;
-  font-size: 14px;
-  border-radius: 50%;
+  color: #ff4301;
+  height: 35px;
+  margin-right: 0.7rem;
+}
+
+.fa-icon {
+  color: #999999;
 }
 
 .card-img,
 .card-img-top {
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
-  /* height: 300px; */
-  width: auto;
-  object-fit: cover;
+}
+
+.img-view {
+  height: 300px;
 }
 
 .dropdown {

@@ -31,9 +31,9 @@ function dropdown(props) {
 
   return (
     <div className="dropdown-container">
-      <p className="m-0 p-0 text-capitalize">
-        <span className="fa fa-filter mr-2"></span>
-        switch b/w different subreddits
+      <p className="m-0 p-0 text-capitalize ">
+        <span className="fa fa-swap mr-1 "></span>
+        <span className="small-text"> switch b/w different subreddits </span>
       </p>
       <Select
         className="dropdown"
