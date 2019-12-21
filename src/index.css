@@ -110,6 +110,12 @@ p {
   height: 300px;
 }
 
+@media only screen and (max-width: 600px) {
+  .img-view {
+    height: auto !important;
+  }
+}
+
 .dropdown {
   height: 30px;
   min-width: 120px;

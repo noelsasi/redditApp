@@ -26,7 +26,7 @@ function postView(props) {
   }
 
   function numerals(num) {
-    const result = Numeral(num).format("0.0a");
+    const result = Numeral(num).format("0a");
     return result;
   }
   return (
@@ -61,21 +61,21 @@ function postView(props) {
 
         {/* <img className="card-img-top" src={isImage(props.url)}) alt="post" /> */}
 
-        <div className="card-body bg-light border  d-flex  justify-content-between px-md-5">
+        <div className="card-body bg-light border  d-flex  justify-content-between px-md-4">
           <div className="d-flex align-items-baseline">
-            <span className="fa fa-thumbs-up mr-1 fa-icon"></span>
+            <span className="fa fa-thumbs-up mr-1 fa-icon d-none d-md-block"></span>
             <span className="small-text mr-1">Likes</span>
             <p className="card-text">{numerals(props.score)}</p>
           </div>
 
           <div className="d-flex align-items-baseline">
-            <span className="fa fa-comment mr-1 fa-icon"></span>
+            <span className="fa fa-comment mr-1 fa-icon d-none d-md-block"></span>
             <span className="small-text mr-1">Comments</span>
             <p className="card-text">{numerals(props.comments)}</p>
           </div>
 
           <div className="d-flex align-items-baseline">
-            <span className="fa fa-users mr-1 fa-icon"></span>
+            <span className="fa fa-users mr-1 fa-icon d-none d-md-block"></span>
             <span className="small-text mr-1">Subscribers</span>
             <p className="card-text">{numerals(props.subscribers)}</p>
           </div>
