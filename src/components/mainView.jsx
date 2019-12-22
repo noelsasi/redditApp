@@ -1,30 +1,23 @@
 import React, { Component } from "react";
-import axios from "axios";
-import loader from "./images/loader.gif";
 
 import Post from "./postView";
 import Subreddits from "./subreddits";
+
+import { connect } from "react-redux";
+import { fetchPosts, selectSubreddit } from "../actions/postActions";
+import PropTypes from "prop-types";
+
+import store from "../store";
+
 class MainView extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      data: [],
-      subreddit: "all"
-    };
+    this.getSubreddit = this.getSubreddit.bind(this);
   }
 
   componentDidMount() {
-    this.loadData();
-  }
-
-  loadData() {
-    const { subreddit } = this.state;
-    const url = subreddit.split(" ").join("+");
-    axios
-      .get(`https://www.reddit.com/r/${url}.json`)
-      .then(res => res.data.data)
-      .then(data => this.setState({ data: data.children }));
+    this.props.fetchPosts();
   }
 
   time = date => {
@@ -32,19 +25,17 @@ class MainView extends Component {
     return result.toLocaleDateString();
   };
 
-  changeSubreddit = () => {
-    this.setState({ data: [] });
-    this.loadData();
-  };
-
-  getSubreddit = value => {
-    this.setState({ subreddit: value }, () => this.changeSubreddit());
-  };
+  getSubreddit(value) {
+    this.props.selectSubreddit(value);
+    this.props.fetchPosts();
+  }
 
   render() {
-    const { data } = this.state;
-    console.log(data, "api");
-    const posts = data.map((post, i) => (
+    console.log(this.props.posts, "api");
+
+    const { subreddit } = store.getState().posts;
+
+    const posts = this.props.posts.map((post, i) => (
       <div key={i}>
         <Post
           url={post.data.url}
@@ -66,15 +57,9 @@ class MainView extends Component {
           </div>
           <div className="posts my-4">
             <h6>
-              Results for "<u>{this.state.subreddit}</u>"
+              Results for "<u>{subreddit}</u>"
             </h6>
-            {/* <img src={loader} alt="loading" className="img-fluid" /> */}
-            {this.state.data.length > 0 ? (
-              posts
-            ) : (
-              <img src={loader} alt="loading" className="img-fluid" />
-            )}
-            {/* {posts} */}
+            {posts}
           </div>
         </div>
       </div>
@@ -82,4 +67,17 @@ class MainView extends Component {
   }
 }
 
-export default MainView;
+MainView.propTypes = {
+  fetchPosts: PropTypes.func.isRequired,
+  posts: PropTypes.array.isRequired,
+  selectSubreddit: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  posts: state.posts.items,
+  selectSubreddit: state.posts.subreddit
+});
+
+export default connect(mapStateToProps, { fetchPosts, selectSubreddit })(
+  MainView
+);
